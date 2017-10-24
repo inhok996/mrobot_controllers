@@ -34,6 +34,7 @@ namespace mrobot_control
 		private:
 			controller* controllers[10];
 			int cont_idx; //current controller index
+			int last_cont_idx; //last controller index
 			odometry odm;// odometry object
 			laser_sensor hlds; //laser data
 			double out_v; //unicycle output

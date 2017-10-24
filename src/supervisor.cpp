@@ -6,6 +6,7 @@ namespace mrobot_control
 	{
 		printf("Supervisor init\n");
 		cont_idx = STOP; //stop controller
+		last_cont_idx = GOTOGOAL; //should be changed when controller added.
 		printf("cont_idx = %d\n",cont_idx);
 
 		controllers[STOP] = new stop(0);
@@ -62,6 +63,10 @@ namespace mrobot_control
 		vel_l = 0;
 		vel_r = 0;
 		odm.update(0,0,0);
+
+		for(int i = 0 ; i <= last_cont_idx ; i++){
+			controllers[i]->reset(); //reset all controllers parameters
+		}
 	}
 	void Supervisor::first_position_sample(double i_pos_l,double i_pos_r)
 	{
