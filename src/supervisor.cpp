@@ -24,7 +24,7 @@ namespace mrobot_control
 			controllers[i]->setParam(in_param[i]);
 	}
 
-	void Supervisor::get_encoder_data(double pos_l,double pos_r)
+	void Supervisor::get_sensor_data(double pos_l,double pos_r, pcl::PointCloud<pcl::PointXYZI>& inCloud)
 	{
 		if(seqno == 0) { //if first, it need to save jointState data to prev_pos
 			first_position_sample(pos_l,pos_r);
@@ -32,7 +32,7 @@ namespace mrobot_control
 		this->pos_l = pos_l; 
 		this->pos_r = pos_r;
 		update_odometry(); //update robot's odometry here
-		//hlds.pharse_cloud(inCloud); //save only usable point data
+		hlds.parse_cloud(inCloud); //save only usable point data
 		++seqno; //sequence number
 	}
 

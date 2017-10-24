@@ -63,13 +63,13 @@ int main(int argc,char **argv)
 			if(if_con_changed){	
 				sv->set_cont_idx(current_control_num);
 			}
-			sv->get_encoder_data(js.position[0],js.position[1]); //save sensor data into supervisor
+			sv->get_sensor_data(js.position[0],js.position[1], pc); //save sensor data into supervisor
 			current_control_num = sv->execute(); //execute controllers
 
 			twist_cmd.linear.x = sv->get_out_v();//save output v,w before publish
 			twist_cmd.angular.z = sv->get_out_w();
 
-			//cloud_pub.publish(sv->get_cloud()); //pharsed points Publish for debug
+			cloud_pub.publish(sv->get_cloud()); //pharsed points Publish for debug
 			twist_pub.publish(twist_cmd); //twist command publish
 		}else if(global_state == RESET_PARAM){
 			sv->reset(); //reset all parameters

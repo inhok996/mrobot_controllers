@@ -18,7 +18,7 @@ namespace mrobot_control
 		public:
 			Supervisor(void);
 			void setParams(params in_param[],int size);
-			void get_encoder_data(double pos_l,double pos_r); //return: if first
+			void get_sensor_data(double pos_l,double pos_r, pcl::PointCloud<pcl::PointXYZI>& inCloud); 
 			int execute(); //return : current_state
 			void reset();
 			void update_odometry();
