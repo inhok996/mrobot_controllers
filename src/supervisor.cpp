@@ -6,12 +6,13 @@ namespace mrobot_control
 	{
 		printf("Supervisor init\n");
 		cont_idx = STOP; //stop controller
-		last_cont_idx = GOTOGOAL; //should be changed when controller added.
+		last_cont_idx = AVOIDOBSTACLES; //should be changed when controller added.
 		printf("cont_idx = %d\n",cont_idx);
 
 		controllers[STOP] = new stop(0);
 		controllers[GOTOANGLE] = new gotoangle(1);
 		controllers[GOTOGOAL] = new gotogoal(2);
+		controllers[AVOIDOBSTACLES] = new avoidobstacles(3);
 
 		robot_r = WHEEL_RADIUS; //include/mrobot_controllers/robot/hardwareinfo.h
 		robot_l = WHEEL_BASE_LENGTH; //include/mrobot_controllers/robot/hardwareinfo.h
@@ -32,7 +33,7 @@ namespace mrobot_control
 		this->pos_l = pos_l; 
 		this->pos_r = pos_r;
 		update_odometry(); //update robot's odometry here
-		hlds.parse_cloud(inCloud); //save only usable point data
+		hlds.cloud_to_ir(inCloud); //save only usable point data
 		++seqno; //sequence number
 	}
 
@@ -44,7 +45,7 @@ namespace mrobot_control
 
 		printf("prev_pos_l = %lf, prev_pos_r = %lf\n",prev_pos_l,prev_pos_r);
 
-		if(controllers[cont_idx]->execute(odm)) cont_idx = STOP;//for gotoGoal
+		if(controllers[cont_idx]->execute(odm,hlds)) cont_idx = STOP;//for gotoGoal
 
 		this->out_v = controllers[cont_idx]->get_out_v(); //get out v, w according to state
 		this->out_w = controllers[cont_idx]->get_out_w();

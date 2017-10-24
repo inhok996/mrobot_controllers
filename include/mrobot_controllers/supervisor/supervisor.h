@@ -3,11 +3,10 @@
 #include <stdio.h>
 #include <mrobot_controllers/controllers/controllers.h>
 #include <mrobot_controllers/robot/hardwareinfo.h>
-#include <mrobot_controllers/robot/sensors.h>
 #define STOP 0
 #define GOTOANGLE 1
 #define GOTOGOAL 2
-#define AVOIDOBSTACLE 3
+#define AVOIDOBSTACLES 3
 #define AVONGTG 4
 #define WALLFOLLOWING 5
 namespace mrobot_control

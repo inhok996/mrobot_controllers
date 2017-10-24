@@ -5,7 +5,7 @@ namespace mrobot_control
 {
 	laser_sensor::laser_sensor(void){}
 	laser_sensor::~laser_sensor(void){}
-	void laser_sensor::parse_cloud(pcl::PointCloud<pcl::PointXYZI>& inCloud)
+	void laser_sensor::cloud_to_ir(pcl::PointCloud<pcl::PointXYZI>& inCloud)
 	{
 		phCloud.clear(); //clear phCloud
 		for(int i = 0 ; i < NUM_IR_PTS; i++){
