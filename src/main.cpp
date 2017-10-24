@@ -87,7 +87,7 @@ bool init_params(ros::NodeHandle& nh,mrobot_control::Supervisor& sv)
 {
 	int numCon; //number of Controllers
 	if(!nh.getParam("NumControllers",numCon)){
-		std::cout << "not found controllers" << std::endl;
+		ROS_INFO("param name NumControllers needed");
 		return false;
 	}
 	max_con_num = numCon;
@@ -102,21 +102,21 @@ bool init_params(ros::NodeHandle& nh,mrobot_control::Supervisor& sv)
 			if(!nh.getParam(key+"/kp",pa[i-1].kp)) return false;
 			if(!nh.getParam(key+"/ki",pa[i-1].ki)) return false;
 			if(!nh.getParam(key+"/kd",pa[i-1].kd)) return false;
-			std::string argvin("/input0");
-			for(int j = 1; j <= MAX_NUM_INPUT; j++){ 
-				argvin[argvin.find((j + '0') - 1)] = j + '0';
+			if(!nh.getParam(key+"/numInputs",pa[i-1].argc)) return false; //essential params til this line
+			if(pa[i-1].argc > MAX_NUM_INPUT) { ROS_INFO("too many inputs(max : %d)",MAX_NUM_INPUT); return false;}
+			std::string argvin("/input");
+			for(int j = 1; j <= pa[i-1].argc; j++){
 				pa[i-1].argv[j-1] = 0; //if failed, it has default value as 0
-				nh.getParam(key+argvin,pa[i-1].argv[j-1]);
+				nh.getParam(key+(argvin + boost::to_string(j)),pa[i-1].argv[j-1]);
 			}
-			/* for debug
+			//print here
 			std::cout <<"controller name :  " << c_name << std::endl;
 			std::cout <<"kp : " << pa[i-1].kp << std::endl;
 			std::cout <<"ki : " << pa[i-1].ki << std::endl;
 			std::cout <<"kd : " << pa[i-1].kd << std::endl;
-			std::cout <<"input1 : " << pa[i-1].argv[0] << std::endl;
-			std::cout <<"input2 : " << pa[i-1].argv[1] << std::endl;
-			std::cout <<"input3 : " << pa[i-1].argv[2] << std::endl;
-			*/
+			std::cout <<"numInputs : " << pa[i-1].argc << std::endl;
+			for(int j = 1 ; j <= pa[i-1].argc ; j++)
+				std::cout <<"input" << j <<" : " << pa[i-1].argv[j-1] << std::endl;
 		}
 	}
 	sv.setParams(pa,numCon);

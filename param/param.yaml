@@ -4,11 +4,13 @@ Controller1:
  kp: 0
  ki: 0
  kd: 0
+ numInputs: 0
 Controller2:
  controller_name: "gotoAngle"
  kp: 1
  ki: 0
  kd: 0
+ numInputs: 2
  input1: 0.1 #m/s user define input
  input2: 45 #degree
 Controller3:
@@ -16,6 +18,7 @@ Controller3:
  kp: 1
  ki: 0.01
  kd: 0.01
+ numInputs: 4
  input1: 0.1 #m/s
  input2: 0.3 #m x coordinate
  input3: 0.3 #m y coordinate

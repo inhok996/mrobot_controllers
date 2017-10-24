@@ -1,13 +1,14 @@
 #pragma once
 #include <mrobot_controllers/robot/odometry.h>
-#define MAX_NUM_INPUT 9
-#define MAX_NUM_CONTROLLERS 10
+#define MAX_NUM_INPUT 99
+#define MAX_NUM_CONTROLLERS 9
 namespace mrobot_control
 {
 	struct params{
 		double kp;
 		double ki;
 		double kd;
+		int argc;
 		double argv[MAX_NUM_INPUT];
 	};
 
