@@ -19,7 +19,11 @@ bool if_con_changed = false;
 int max_con_num = 0; //max
 
 void jointCallback(const sensor_msgs::JointState& msg) { js.position = msg.position; }
-void cloudCallback(const sensor_msgs::PointCloud2ConstPtr& msg) { pcl::fromROSMsg(*msg,pc); }
+void cloudCallback(const sensor_msgs::PointCloud2ConstPtr& msg) 
+{
+	if(msg->header.frame_id != "laser") ROS_ERROR("HLDS DRIVER SHOULD WORK!!");
+	else pcl::fromROSMsg(*msg,pc);
+}
 bool exec_command(mrobot_controllers::srvController::Request& req,
 	mrobot_controllers::srvController::Response& res);
 bool init_params(ros::NodeHandle& nh,mrobot_control::Supervisor& sv);
