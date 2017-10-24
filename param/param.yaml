@@ -1,0 +1,23 @@
+NumControllers: 3
+Controller1:
+ controller_name: "stop"
+ kp: 0
+ ki: 0
+ kd: 0
+Controller2:
+ controller_name: "gotoAngle"
+ kp: 1
+ ki: 0
+ kd: 0
+ input1: 0.1 #m/s user define input
+ input2: 45 #degree
+Controller3:
+ controller_name: "gotoGoal"
+ kp: 1
+ ki: 0.01
+ kd: 0.01
+ input1: 0.1 #m/s
+ input2: 0.3 #m x coordinate
+ input3: 0.3 #m y coordinate
+ input4: 0.02 #d_stop 2cm
+

@@ -1,0 +1,5 @@
+<launch>
+	<rosparam file="$(find mrobot_controllers)/param/param.yaml" command="load"/>
+	<node name ="lasertopoints" pkg="mrobot_controllers" type ="lasertopoint" />
+	<node name ="control_node" pkg="mrobot_controllers" type="control_node" output="screen" />
+</launch>
