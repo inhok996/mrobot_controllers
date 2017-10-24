@@ -1,5 +1,6 @@
 #pragma once
 #include <mrobot_controllers/robot/odometry.h>
+#include <mrobot_controllers/robot/sensors.h>
 #define MAX_NUM_INPUT 99
 #define MAX_NUM_CONTROLLERS 9
 namespace mrobot_control
@@ -18,7 +19,7 @@ namespace mrobot_control
 			controller();
 			controller(int type);
 			virtual void setParam(params in);
-			virtual int execute(odometry odm);
+			virtual int execute(odometry& odm,laser_sensor& ls);
 			virtual void reset();
 			double get_out_v(){return out.o_v;}
 			double get_out_w(){return out.o_w;}
@@ -37,7 +38,7 @@ namespace mrobot_control
 			stop();
 			stop(int type);
 			void setParam(params in);
-			int execute(odometry odm);
+			int execute(odometry& odm,laser_sensor& ls);
 			void reset();
 			//no input for stop controller
 	};
@@ -48,7 +49,7 @@ namespace mrobot_control
 			gotoangle();
 			gotoangle(int type);
 			void setParam(params in);
-			int execute(odometry odm);
+			int execute(odometry& odm,laser_sensor& ls);
 			void reset();
 		private:
 			double kp; //p controller kp value
@@ -66,9 +67,9 @@ namespace mrobot_control
 			gotogoal();
 			gotogoal(int type);
 			void setParam(params in);
-			int execute(odometry odm);
+			int execute(odometry& odm,laser_sensor& ls);
 			void reset();
-			bool check_event(odometry odm);
+			bool check_event(odometry& odm);
 		private:
 			double kp; //p controller kp value
 			double ki;
@@ -85,4 +86,40 @@ namespace mrobot_control
 			ref_input in;
 	};
 
+	class avoidobstacles : public controller
+	{
+		public:
+			avoidobstacles();
+			avoidobstacles(int type);
+			void setParam(params in);
+			int execute(odometry& odm,laser_sensor& ls);
+			void reset();
+			void get_ir_points(laser_sensor& ls);
+			void get_tf_matrix(float x,float y,float theta);
+			void transform_ir_points();
+		private:
+			double kp; //p controller kp value
+			double ki;
+			double kd;
+
+			double E_k; //sum of all errors(integral)
+			double e_k_1; //previous error
+			struct ref_input{ //reference
+				double v_g; //input velocity
+			};
+			ref_input in;
+			struct tf_matrix{
+				float cos_theta;
+				float sin_theta;
+				float x;
+				float y;
+			};
+			tf_matrix tf;
+			struct point{
+				float x;
+				float y;
+				double dist; //distance from center
+			};
+			point ir_points[NUM_IR_PTS];
+	};
 }
