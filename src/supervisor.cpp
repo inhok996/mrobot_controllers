@@ -43,7 +43,7 @@ namespace mrobot_control
 		//printf("current pose = %lf, %lf, %lf\n",odm.get_x(),odm.get_y(),odm.get_theta());
 		int execute_event = 0;
 
-		printf("prev_pos_l = %lf, prev_pos_r = %lf\n",prev_pos_l,prev_pos_r);
+		//printf("prev_pos_l = %lf, prev_pos_r = %lf\n",prev_pos_l,prev_pos_r);
 
 		if(controllers[cont_idx]->execute(odm,hlds)) cont_idx = STOP;//for gotoGoal
 
@@ -106,6 +106,9 @@ namespace mrobot_control
 		x_new = x + dc*cos(theta);
 		y_new = y + dc*sin(theta);
 		theta_new = theta + (dr - dl)/robot_l;
+
+		//new 2017-10-25
+		theta_new = atan2(sin(theta_new),cos(theta_new)); //shoud be -pi ~ pi
 
 		//save the wheel encoder rad for the next estimate
 		prev_pos_r = pos_r;
