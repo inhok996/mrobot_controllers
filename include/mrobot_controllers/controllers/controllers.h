@@ -97,6 +97,9 @@ namespace mrobot_control
 			void get_ir_points(laser_sensor& ls);
 			void get_tf_matrix(float x,float y,float theta);
 			void transform_ir_points();
+			double compute_ref_theta(odometry& odm,float gain[7]);
+			double compute_first(odometry& odm,float gain[7],double& x,double& y);
+			double transform_u_ao(double u_x,double u_y);
 		private:
 			double kp; //p controller kp value
 			double ki;
