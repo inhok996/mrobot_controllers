@@ -156,7 +156,7 @@ namespace mrobot_control
 		double theta_ao; //theta avoid obstacle (theta between goal and ev3)
 		double e_k,e_P,e_I,e_D; //PID errors
 		double w; //omega
-		float sensor_gains[7] = {0 ,1, 1, 0.5 ,1, 1, 0};
+		float sensor_gains[NUM_IR_PTS] = {0,1,1,1,1,1,0.5,1,1,1,1,1,0};
 		/*
 
 		tf matrix(x,y,@) = counter clockwise
@@ -234,7 +234,7 @@ namespace mrobot_control
 
 	void avoidobstacles::get_ir_points(laser_sensor& ls)
 	{
-		double max_dist_points[NUM_IR_PTS][2] = {{0,0}, {0,0.7},{0.49,0.49},{0.7,0},{0.49,-0.49},{0,-0.7},{0,0}};
+		double max_dist_points[NUM_IR_PTS][2] = {{-0.49,0.49},{-0.313,0.626},{0,0.7},{0.313,0.626},{0.49,0.49},{0.626,0.313},{0.7,0}, {0.626,-0.313},{0.49,-0.49},{0.313,-0.626},{0,-0.7},{-0.313,-0.626},{-0.49,-0.49}};
 		for(int i = 0 ; i < NUM_IR_PTS; i++){
 			this->ir_points[i].x = ls.ir_points[i].x;
 			this->ir_points[i].y = ls.ir_points[i].y;
@@ -290,13 +290,13 @@ namespace mrobot_control
 		return theta_ao;
 	}
 
-	double avoidobstacles::compute_first(odometry& odm,float gain[7],double& x, double& y)
+	double avoidobstacles::compute_first(odometry& odm,float gain[NUM_IR_PTS],double& x, double& y)
 	{
 		double u_ao[2] = {0,}; //reference vector of avoid obstacle (x,y)
 		double theta_ao = 0;
-		point ir_vector[7] = {};
+		point ir_vector[NUM_IR_PTS] = {};
 		//
-		for(int i = 0 ; i < 7 ; i++){ 
+		for(int i = 0 ; i < NUM_IR_PTS ; i++){ 
 			ir_vector[i].x = ir_points[i].x; //since - 0
 			ir_vector[i].y = ir_points[i].y;
 			ir_vector[i].x *= gain[i]; //apply gain

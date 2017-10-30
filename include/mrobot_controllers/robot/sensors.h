@@ -3,8 +3,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <sensor_msgs/PointCloud2.h>
-#define L_RES 0.02 //line resolution
-#define NUM_IR_PTS 7 //number of ir points
+#define L_RES 0.015 //line resolution
+#define NUM_IR_PTS 13 //number of ir points
 namespace mrobot_control
 {
 	class laser_sensor

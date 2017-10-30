@@ -23,30 +23,52 @@ namespace mrobot_control
 
 		while(pts_in != inCloud.end()){ //get ir like data
 			p.x = pts_in->x; p.y = pts_in->y; p.z = pts_in->z; p.intensity = pts_in->intensity;
-			if(p.x >= -L_RES && p.x <= L_RES){		// LINE RESOLUTION = 0.02 (meter)
-				if(p.y >= 0) ir_points[1] = p;
-				else ir_points[5] = p;
+			if(p.x >= -L_RES && p.x <= L_RES){  // x = 0
+				if(p.y >= 0) ir_points[2] = p;
+				else ir_points[10] = p;
 				pts_out = phCloud.insert(pts_out,p);	//for checking in rviz
 			}
 			if(p.y - p.x >= -L_RES && p.y - p.x <= L_RES){ // y = x
-				if(p.x >= 0) ir_points[2] = p;
-				else ir_points[6] = p;
+				if(p.x >= 0) ir_points[4] = p;
+				else ir_points[12] = p;
 				pts_out = phCloud.insert(pts_out,p); 
 			}
 			if(p.y + p.x >= -L_RES && p.y + p.x <= L_RES){ //y = -x
-				if(p.x >= 0) ir_points[4] = p;
+				if(p.x >= 0) ir_points[8] = p;
 				else ir_points[0] = p;
 				pts_out = phCloud.insert(pts_out,p);
 			}
-			if(p.y >= -L_RES && p.y <= L_RES){
+			if(p.y >= -L_RES && p.y <= L_RES){ // y = 0
 				if(p.x >= 0){ 
-					ir_points[3] = p;
+					ir_points[6] = p;
 					pts_out = phCloud.insert(pts_out,p);
 				}
 			}
+			if(((p.y - (0.5*p.x)) >= -L_RES) && ((p.y - (0.5*p.x)) <= L_RES)){ //y = 1/2x
+				if(p.x >= 0){ 
+					ir_points[5] = p;
+					pts_out = phCloud.insert(pts_out,p);
+				}
+			}
+			if(((p.y - (2.0*p.x)) >= -L_RES) && ((p.y + (2.0*p.x)) <= L_RES)){ //y = 2x
+				if(p.x >= 0) ir_points[3] = p;
+				else ir_points[11] = p;
+				//pts_out = phCloud.insert(pts_out,p); 
+			}
+			if(((p.y + (0.5*p.x)) >= -L_RES) && ((p.y + (0.5*p.x)) <= L_RES)){ //y = -1/2x
+				if(p.x >= 0){ 
+					ir_points[7] = p;
+					pts_out = phCloud.insert(pts_out,p);
+				}
+			}
+			if(((p.y + (2.0*p.x)) >= -L_RES) &&(( p.y + (2.0*p.x)) <= L_RES)){ //y = -2x
+				if(p.x >= 0) ir_points[9] = p;
+				else ir_points[1] = p;
+				//pts_out = phCloud.insert(pts_out,p);
+			}
 			pts_in++;
 		}
-		//for(int i = 0 ; i < 7 ; i++){
+		//for(int i = 0 ; i < 13 ; i++){
 		//	printf("ir_points[%d].x = %lf,ir_points[%d] = %lf\n",i,ir_points[i].x,i,ir_points[i].y);
 		//}
 		pcl::toROSMsg(phCloud, outCloud);

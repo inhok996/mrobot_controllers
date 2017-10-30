@@ -25,8 +25,8 @@ Controller3:
  input4: 0.02 #d_stop 2cm
 Controller4:
  controller_name: "avoidObstacles"
- kp: 6
+ kp: 8
  ki: 0.1
- kd: 0.1
+ kd: 0.5
  numInputs: 1
  input1: 0.07 #m/s
